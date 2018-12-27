@@ -1,4 +1,4 @@
-# YgoDocGen
+# YGOPro Documentation Generator
 Generate YGOPro Lua Documentation by automatically inspecting C++ source file
 
 # Brief Description
