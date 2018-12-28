@@ -2,12 +2,10 @@
 Generate YGOPro Lua Documentation by automatically inspecting C++ source file
 
 # Brief Description
-This Python script generates `ygopro` Lua Documentation by automatically inspecting C++ source file. It's not really robust and it strongly relies on fixed coding convension (like spacing). This file can be used by `DataEditorX`, which havn't updated its `_functions.txt` for billions of year.
-
-Currently some coding convension fix (basically adding white space) need to be done to the upstream. Trying to create a Pull Requet.
+This Python script generates `ygopro` Lua Documentation by automatically inspecting C++ source file. It's not really robust and it strongly relies on fixed coding convension (like spacing). This file can be used by `DataEditorX`, which havn't updated its `_functions.txt` for billions of year. Currently some coding convension fix (basically adding white space) need to be done to the upstream. Trying to create a Pull Requet.
 
 # Usage
-Simply put the script under `ygopro-core` master branch folder and run it. It outputs to STDOUT. Techincally it requires `python 3.x` and no other package (The regex module `re` is shipped as part of python). It probably can be easily modify it to `python 2.x` script by fixign the `print` statement
+Simply put the script under `ygopro-core` master branch folder and run it. It outputs to STDOUT. Techincally it requires `python 3.x` and no other package (The regex module `re` is shipped as part of python). It probably can be easily modify it to `python 2.x` script by fixign the `print` statement. **It now also need old `_functions.txt` from DataEditorX**
 
 # Example Output (Now much better)
     ●int Card.GetCode(card pcard)
