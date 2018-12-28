@@ -105,9 +105,9 @@ c2duel = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', op
 c2debug = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libdebug.cpp').read(), flags=DOTALL))
 c2effect = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libeffect.cpp').read(), flags=DOTALL))
 c2group = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libgroup.cpp').read(), flags=DOTALL))
-t = open('_functions.txt',encoding='utf-8-sig').read()
-t = re.sub('===+[^=]*=*\n', '', t)
-old = dict((j,i) for i,j in findall('●([^ ]* ([^(]*)[^\n]*\n[^●]*)\n', t, DOTALL))
+
+old = re.sub('===+[^=]*=*\n', '', open('_functions.txt',encoding='utf-8-sig').read())
+old = dict((j,i) for i,j in findall('●([^ ]* ([^(]*)[^\n]*\n[^●]*)\n', old, DOTALL))
 
 for i,j in lua2c:
     group = j.partition('_')[0]
@@ -115,3 +115,7 @@ for i,j in lua2c:
     print(genDoc(name, parseC(globals()['c2'+group][j])))
     if name in old:
         print('', old[name].replace('\n','\n '))
+        del old[name]
+print()
+for i in old.values():
+    print('●', i, sep='')
