@@ -86,9 +86,9 @@ def fmtArg(arg, ret=False, nil='?'):
         b = []
     return ('|'.join(a) if len(a)>0 else 'nil' if ret else nil) + ' ' + ('' if ret else ('|'.join(b) if len(b)>0 else nil))
 
-def genDoc(group, name, parse):
+def genDoc(name, parse):
     arg, varArg, nArg = parse
-    doc = '●' + fmtArg(arg[0] if 0 in arg else None, True) + group + '.' + name + '('
+    doc = '●' + fmtArg(arg[0] if 0 in arg else None, True) + name + '('
     arg = [fmtArg(arg[i] if i in arg else None) for i in range(1, max(arg, default=0)+1)]
     if varArg:
         arg.append(fmtArg(varArg) + '...')
@@ -99,13 +99,19 @@ def genDoc(group, name, parse):
 
 from re import findall, DOTALL
 
-lua2c = dict(findall('"([A-Za-z]*)", scriptlib::([a-z_]*)', open('interpreter.cpp').read()))
+lua2c = findall('"([A-Za-z]*)", scriptlib::([a-z_]*)', open('interpreter.cpp').read())
 c2card = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libcard.cpp').read(), flags=DOTALL))
 c2duel = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libduel.cpp').read(), flags=DOTALL))
 c2debug = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libdebug.cpp').read(), flags=DOTALL))
 c2effect = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libeffect.cpp').read(), flags=DOTALL))
 c2group = dict(findall('scriptlib::([a-z_]*)\(lua_State \* ?L\) \{\n(.*?)\n}', open('libgroup.cpp').read(), flags=DOTALL))
+t = open('_functions.txt',encoding='utf-8-sig').read()
+t = re.sub('===+[^=]*=*\n', '', t)
+old = dict((j,i) for i,j in findall('●([^ ]* ([^(]*)[^\n]*\n[^●]*)\n', t, DOTALL))
 
-for i,j in lua2c.items():
+for i,j in lua2c:
     group = j.partition('_')[0]
-    print(genDoc(group[0].upper()+group[1:], i, parseC(globals()['c2'+group][j])))
+    name = group[0].upper() + group[1:] + '.' + i
+    print(genDoc(name, parseC(globals()['c2'+group][j])))
+    if name in old:
+        print('', old[name].replace('\n','\n '))
