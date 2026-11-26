@@ -1,4 +1,7 @@
 # YGOPro Documentation Generator
+
+**项目状态 · 未完成（2026-11-26）**。另一套解析器，README 声称可直接运行。固定源码和完整 ocgcore 输入实测 NameError re，另引用未交付的 _functions.txt 修正独立入口和缺失输入，或证明可由 ygodoc.py 替代
+
 Generate YGOPro Lua Documentation by automatically inspecting C++ source file
 
 # Brief Description
